@@ -1,0 +1,50 @@
+services:
+  neon-local:
+    image: neondatabase/neon_local:latest
+    container_name: acquisition-neon-local
+    ports:
+      - '5432:5432' # ✅ correct Neon port
+    env_file:
+      - .env.development
+    volumes:
+      - ./.neon_local/:/tmp/.neon_local
+      - ./.git/HEAD:/tmp/.git/HEAD:ro,consistent
+    networks:
+      - acquisition-network
+    healthcheck:
+      test: ['CMD', 'pg_isready', '-h', 'localhost', '-p', '5432', '-U', 'neon']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: acquisition-app-dev
+    ports:
+      - '3000:3000' # ✅ match app’s server port
+    env_file:
+      - .env.development
+    volumes:
+      - ./src:/app/src:ro
+      - ./package.json:/app/package.json:ro
+      - /app/node_modules
+    networks:
+      - acquisition-network
+    depends_on:
+      neon-local:
+        condition: service_healthy
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+
+networks:
+  acquisition-network:
+    driver: bridge
+
+volumes:
+  neon-local-data:
+    driver: local
