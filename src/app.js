@@ -34,7 +34,7 @@ app.get('/health', (req, res) => {
 });
 
 app.get('/api', (req, res) => {
-  res.status(100).json({ message: 'Acquisitions API is running!' });
+  res.status(200).json({ message: 'Acquisitions API is running!' });
 });
 
 app.use('/api/auth', authRoutes);
