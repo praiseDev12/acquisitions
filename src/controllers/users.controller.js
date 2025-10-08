@@ -1,6 +1,14 @@
 import logger from '#config/logger.js';
-import { getAllUsers, getUserById as getUserByIdService, updateUser as updateUserService, deleteUser as deleteUserService } from '#services/users.service.js';
-import { userIdSchema, updateUserSchema } from '#validations/users.validation.js';
+import {
+  getAllUsers,
+  getUserById as getUserByIdService,
+  updateUser as updateUserService,
+  deleteUser as deleteUserService,
+} from '#services/users.service.js';
+import {
+  userIdSchema,
+  updateUserSchema,
+} from '#validations/users.validation.js';
 import { formatValidationError } from '#utils/format.js';
 
 export const fetchAllUsers = async (req, res, next) => {
@@ -26,7 +34,7 @@ export const getUserById = async (req, res, next) => {
 
     // Validate the request parameters
     const validationResult = userIdSchema.safeParse(req.params);
-    
+
     if (!validationResult.success) {
       return res.status(400).json({
         error: 'Validation failed',
@@ -42,15 +50,18 @@ export const getUserById = async (req, res, next) => {
       user,
     });
   } catch (e) {
-    logger.error(`users.controller.js Error: getting user by ID ${req.params.id}`, e);
-    
+    logger.error(
+      `users.controller.js Error: getting user by ID ${req.params.id}`,
+      e
+    );
+
     if (e.message === 'User not found') {
       return res.status(404).json({
         error: 'Not Found',
-        message: 'User not found'
+        message: 'User not found',
       });
     }
-    
+
     next(e);
   }
 };
@@ -80,13 +91,13 @@ export const updateUser = async (req, res, next) => {
 
     const { id } = paramValidation.data;
     const updates = bodyValidation.data;
-    
+
     // Authorization checks
     // Users can only update their own information
     if (req.user.id !== id && req.user.role !== 'admin') {
       return res.status(403).json({
         error: 'Forbidden',
-        message: 'You can only update your own information'
+        message: 'You can only update your own information',
       });
     }
 
@@ -94,7 +105,7 @@ export const updateUser = async (req, res, next) => {
     if (updates.role && req.user.role !== 'admin') {
       return res.status(403).json({
         error: 'Forbidden',
-        message: 'Only administrators can change user roles'
+        message: 'Only administrators can change user roles',
       });
     }
 
@@ -105,15 +116,18 @@ export const updateUser = async (req, res, next) => {
       user: updatedUser,
     });
   } catch (e) {
-    logger.error(`users.controller.js Error: updating user ${req.params.id}`, e);
-    
+    logger.error(
+      `users.controller.js Error: updating user ${req.params.id}`,
+      e
+    );
+
     if (e.message === 'User not found') {
       return res.status(404).json({
         error: 'Not Found',
-        message: 'User not found'
+        message: 'User not found',
       });
     }
-    
+
     next(e);
   }
 };
@@ -133,13 +147,13 @@ export const deleteUser = async (req, res, next) => {
     }
 
     const { id } = validationResult.data;
-    
+
     // Authorization checks
     // Users can only delete their own account or admins can delete any account
     if (req.user.id !== id && req.user.role !== 'admin') {
       return res.status(403).json({
         error: 'Forbidden',
-        message: 'You can only delete your own account'
+        message: 'You can only delete your own account',
       });
     }
 
@@ -156,15 +170,18 @@ export const deleteUser = async (req, res, next) => {
       result,
     });
   } catch (e) {
-    logger.error(`users.controller.js Error: deleting user ${req.params.id}`, e);
-    
+    logger.error(
+      `users.controller.js Error: deleting user ${req.params.id}`,
+      e
+    );
+
     if (e.message === 'User not found') {
       return res.status(404).json({
         error: 'Not Found',
-        message: 'User not found'
+        message: 'User not found',
       });
     }
-    
+
     next(e);
   }
 };

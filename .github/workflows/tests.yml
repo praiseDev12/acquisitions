@@ -54,7 +54,7 @@ jobs:
         run: |
           echo "# 🧪 Test Results" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          
+
           if [ "$TEST_STATUS" == "success" ]; then
             echo "## ✅ All Tests Passed" >> $GITHUB_STEP_SUMMARY
             echo "Great job! All your tests are passing." >> $GITHUB_STEP_SUMMARY
@@ -68,10 +68,10 @@ jobs:
             echo "3. Ensure all dependencies are properly installed" >> $GITHUB_STEP_SUMMARY
             echo "4. Verify environment variables are correctly set" >> $GITHUB_STEP_SUMMARY
           fi
-          
+
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "## 📊 Coverage Reports" >> $GITHUB_STEP_SUMMARY
-          
+
           if [ -d "coverage" ] && [ "$(ls -A coverage)" ]; then
             echo "Coverage reports have been generated and uploaded as artifacts." >> $GITHUB_STEP_SUMMARY
             echo "You can download them from the workflow artifacts section." >> $GITHUB_STEP_SUMMARY
@@ -79,7 +79,7 @@ jobs:
             echo "⚠️ No coverage reports were generated." >> $GITHUB_STEP_SUMMARY
             echo "Make sure your Jest configuration includes coverage settings." >> $GITHUB_STEP_SUMMARY
           fi
-          
+
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "---" >> $GITHUB_STEP_SUMMARY
           echo "*Workflow completed at $(date)*" >> $GITHUB_STEP_SUMMARY

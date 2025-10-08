@@ -138,6 +138,7 @@ docker-compose -f docker-compose.prod.yml down
 ### Neon Local (Development)
 
 Neon Local automatically:
+
 - Creates ephemeral database branches when the container starts
 - Deletes branches when the container stops
 - Provides a local PostgreSQL-compatible endpoint at `localhost:5432`
@@ -147,6 +148,7 @@ Neon Local automatically:
 ### Neon Cloud (Production)
 
 Production uses your actual Neon Cloud database:
+
 - Direct connection to Neon Cloud
 - No local proxy required
 - Full production database features
@@ -157,19 +159,19 @@ Production uses your actual Neon Cloud database:
 
 ### Required for Development
 
-| Variable | Description | Where to Find |
-|----------|-------------|---------------|
-| `NEON_API_KEY` | Your Neon API key | [Neon Console → Settings → API Keys](https://console.neon.tech/app/settings/api-keys) |
-| `NEON_PROJECT_ID` | Your Neon project ID | Neon Console → Project Settings → General |
-| `PARENT_BRANCH_ID` | Parent branch for ephemeral branches | Usually `main` or your default branch ID |
+| Variable           | Description                          | Where to Find                                                                         |
+| ------------------ | ------------------------------------ | ------------------------------------------------------------------------------------- |
+| `NEON_API_KEY`     | Your Neon API key                    | [Neon Console → Settings → API Keys](https://console.neon.tech/app/settings/api-keys) |
+| `NEON_PROJECT_ID`  | Your Neon project ID                 | Neon Console → Project Settings → General                                             |
+| `PARENT_BRANCH_ID` | Parent branch for ephemeral branches | Usually `main` or your default branch ID                                              |
 
 ### Required for Production
 
-| Variable | Description | Example |
-|----------|-------------|---------|
+| Variable       | Description                       | Example                                                               |
+| -------------- | --------------------------------- | --------------------------------------------------------------------- |
 | `DATABASE_URL` | Full Neon Cloud connection string | `postgres://user:pass@ep-xyz.region.aws.neon.tech/db?sslmode=require` |
-| `ARCJET_KEY` | Production Arcjet key | `ajkey_...` |
-| `JWT_SECRET` | Strong JWT secret | Use a strong, unique string |
+| `ARCJET_KEY`   | Production Arcjet key             | `ajkey_...`                                                           |
+| `JWT_SECRET`   | Strong JWT secret                 | Use a strong, unique string                                           |
 
 ## 🔍 Troubleshooting
 
@@ -178,6 +180,7 @@ Production uses your actual Neon Cloud database:
 #### Development Environment
 
 **Issue**: Neon Local container fails to start
+
 ```bash
 # Check if you have the correct environment variables
 docker-compose -f docker-compose.dev.yml config
@@ -187,6 +190,7 @@ docker-compose -f docker-compose.dev.yml logs neon-local
 ```
 
 **Issue**: Application can't connect to database
+
 ```bash
 # Ensure Neon Local is healthy
 docker-compose -f docker-compose.dev.yml ps
@@ -198,6 +202,7 @@ docker-compose -f docker-compose.dev.yml exec app ping neon-local
 #### Production Environment
 
 **Issue**: Application fails to connect to Neon Cloud
+
 - Verify your `DATABASE_URL` is correct
 - Ensure your Neon database is not paused
 - Check firewall/network restrictions
@@ -222,6 +227,7 @@ docker system prune -f
 ## 🔄 Development Workflow
 
 1. **Start Development Environment**
+
    ```bash
    docker-compose --env-file .env.development.local -f docker-compose.dev.yml up
    ```
@@ -231,6 +237,7 @@ docker system prune -f
    - Database changes are instantly reflected
 
 3. **Run Database Migrations**
+
    ```bash
    docker-compose -f docker-compose.dev.yml exec app npm run db:migrate
    ```
@@ -279,6 +286,7 @@ volumes:
 ```
 
 Add to your `.env.development.local`:
+
 ```bash
 DELETE_BRANCH=false
 ```

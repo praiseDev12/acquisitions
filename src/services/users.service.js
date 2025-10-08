@@ -22,7 +22,7 @@ export const getAllUsers = async () => {
   }
 };
 
-export const getUserById = async (id) => {
+export const getUserById = async id => {
   try {
     const user = await db
       .select({
@@ -91,7 +91,7 @@ export const updateUser = async (id, updates) => {
   }
 };
 
-export const deleteUser = async (id) => {
+export const deleteUser = async id => {
   try {
     // First check if user exists
     const existingUser = await db
@@ -105,9 +105,7 @@ export const deleteUser = async (id) => {
     }
 
     // Delete the user
-    await db
-      .delete(users)
-      .where(eq(users.id, id));
+    await db.delete(users).where(eq(users.id, id));
 
     return { message: 'User deleted successfully' };
   } catch (e) {

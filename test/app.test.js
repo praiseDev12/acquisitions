@@ -11,23 +11,23 @@ describe('API Endpoints', () => {
       expect(response.body).toHaveProperty('uptime');
     });
   });
-});
 
-describe('GET /api', () => {
-  it('should return API message', async () => {
-    const response = await request(app).get('/api').expect(200);
+  describe('GET /api', () => {
+    it('should return API message', async () => {
+      const response = await request(app).get('/api').expect(200);
 
-    expect(response.body).toHaveProperty(
-      'message',
-      'Acquisitions API is running!'
-    );
+      expect(response.body).toHaveProperty(
+        'message',
+        'Acquisitions API is running!'
+      );
+    });
   });
-});
 
-describe('GET /nonexistent', () => {
-  it('should return 404 for non-existent routes', async () => {
-    const response = await request(app).get('/nonexsistent').expect(404);
+  describe('GET /nonexistent', () => {
+    it('should return 404 for non-existent routes', async () => {
+      const response = await request(app).get('/nonexsistent').expect(404);
 
-    expect(response.body).toHaveProperty('error', 'Route not found');
+      expect(response.body).toHaveProperty('error', 'Route not found');
+    });
   });
 });
