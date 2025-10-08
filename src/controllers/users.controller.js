@@ -39,7 +39,7 @@ export const getUserById = async (req, res, next) => {
 
     res.json({
       message: 'Successfully retrieved user',
-      user: user,
+      user,
     });
   } catch (e) {
     logger.error(`users.controller.js Error: getting user by ID ${req.params.id}`, e);
@@ -153,7 +153,7 @@ export const deleteUser = async (req, res, next) => {
 
     res.json({
       message: 'User deleted successfully',
-      result: result,
+      result,
     });
   } catch (e) {
     logger.error(`users.controller.js Error: deleting user ${req.params.id}`, e);
